@@ -1,14 +1,15 @@
-import { Axis2D } from './common'
+import { Axis2D } from "./common";
 
-export type DeviceStatus = {
-  id: number
-  width: number
-  height: number
-  pressure: number
-  tilt: Axis2D
-  client: Axis2D
-  buttons: number
-  twist: number
-  altitudeAngle: number
-  azimuthAngle: number
-}
+export type PenDeviceState = {
+  id: number | null;
+  deviceType: string | null;
+  tilt: Axis2D;
+  client: Axis2D;
+  width?: number;
+  height?: number;
+  pressure?: number;
+  buttons?: number;
+  twist?: number;
+  altitudeAngle?: number;
+  azimuthAngle?: number;
+};
