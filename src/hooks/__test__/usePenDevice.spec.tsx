@@ -19,7 +19,7 @@ describe("usePenDevice", () => {
     const { result } = renderHook(usePenDevice);
     expect(result.current).toStrictEqual(DEFAULT_PEN_DEVICE_STATE);
   });
-  it("should return default state at the first render", async () => {
+  it("should return correct pen device type", async () => {
     const { result, rerender } = renderHook(usePenDevice, {
       wrapper: ({ children }) => (
         <div data-testid={TEST_AREA_EL_ID}>{children}</div>
