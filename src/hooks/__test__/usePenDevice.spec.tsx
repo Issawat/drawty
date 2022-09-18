@@ -14,6 +14,7 @@ import { DEFAULT_PEN_DEVICE_STATE, usePenDevice } from "../usePenDevice";
 const TEST_AREA_EL_ID = "TEST_AREA_EL_ID";
 
 const user = userEvent.setup();
+
 describe("usePenDevice", () => {
   it("should return default state at the first render", () => {
     const { result } = renderHook(usePenDevice);
