@@ -1,6 +1,15 @@
-import { useEffect, useState } from "react";
-export const useScrollLock = (defualtLocked = true) => {
-  const [isLocked, setIsLocked] = useState(defualtLocked);
+import { MutableRefObject, useEffect, useState } from "react";
+
+type UseScrollLockParams = {
+  defaultChecked?: boolean;
+  targetRef?: MutableRefObject<any>;
+};
+
+export const useScrollLock = ({
+  defaultChecked = true,
+  targetRef = { current: window.document.body },
+}: UseScrollLockParams) => {
+  const [isLocked, setIsLocked] = useState(defaultChecked);
 
   useEffect(() => {
     const lockTouchScroll = (e: TouchEvent) => {
@@ -9,13 +18,13 @@ export const useScrollLock = (defualtLocked = true) => {
 
     document.addEventListener("touchstart", lockTouchScroll, false);
     document.addEventListener("touchmove", lockTouchScroll, false);
-    window.document.body.style.overflow = isLocked ? "hidden" : "auto";
+    targetRef.current.style.overflow = isLocked ? "hidden" : "auto";
 
     return () => {
       document.removeEventListener("touchstart", lockTouchScroll, false);
       document.removeEventListener("touchmove", lockTouchScroll, false);
     };
-  }, [isLocked]);
+  }, [isLocked, targetRef]);
 
   return {
     toggleScrollLoack: () => setIsLocked((prev) => !prev),
