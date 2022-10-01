@@ -27,7 +27,7 @@ export const useScrollLock = ({
   }, [isLocked, targetRef]);
 
   return {
-    toggleScrollLoack: () => setIsLocked((prev) => !prev),
+    toggleScrollLock: () => setIsLocked((prev) => !prev),
     isLocked,
   };
 };
