@@ -1,14 +1,11 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
 import { usePenDevice } from "./hooks/usePenDevice";
 
 function App() {
   const pen = usePenDevice();
 
   return (
-    <div className="App">
-      <img src={logo} className="App-logo" alt="logo" />
+    <div>
       <h3>Pen device demo</h3>
       <p>Device Type: {pen.deviceType}</p>
       <p>Pressure: {pen.pressure}</p>
