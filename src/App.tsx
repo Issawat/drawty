@@ -1,15 +1,16 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
 import { usePenDevice } from "./hooks/usePenDevice";
+import { useScrollLock } from "./hooks/useScrollLock";
 
 function App() {
   const pen = usePenDevice();
-
+  const { isLocked, toggleScrollLock } = useScrollLock({});
   return (
-    <div className="App">
-      <img src={logo} className="App-logo" alt="logo" />
+    <div>
       <h3>Pen device demo</h3>
+      <button onClick={toggleScrollLock}>
+        {isLocked ? "Unlock" : "Lock"} scroll
+      </button>
       <p>Device Type: {pen.deviceType}</p>
       <p>Pressure: {pen.pressure}</p>
       <p>Tilt: {JSON.stringify(pen.tilt)}</p>
