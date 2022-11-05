@@ -1,57 +1,41 @@
-import fabric, { Canvas } from "fabric/fabric-impl";
+import { fabric } from "fabric";
 import { useEffect, useRef, useState } from "react";
 
-type UseDrawCanvasState = {
-  isDrawingMode: boolean;
-};
-
 export type UseDrawCanvasOptions = {
-  canvasId?: string;
-};
-
-const DEFAULT_CANVAS_ID = "use-draw-canvas";
-
-const INIT_DRAW_CANVAS_STATE: UseDrawCanvasState = {
-  isDrawingMode: false,
+  canvasId: string;
+  initialSettings?: fabric.ICanvasOptions;
 };
 
 export const useDrawCanvas = (options: UseDrawCanvasOptions) => {
-  const { canvasId = DEFAULT_CANVAS_ID } = options;
-
+  const fabricRef = useRef<fabric.Canvas>();
+  const fabricCanvas = fabricRef.current;
   const [isReady, setIsReady] = useState(false);
-  const [drawCanvasState, _setDrawCanvasState] = useState<UseDrawCanvasState>(
-    INIT_DRAW_CANVAS_STATE
-  );
-
-  const canvasRef = useRef<Partial<Canvas>>({});
-
-  const updateDrawCanvasState = (newState: Partial<UseDrawCanvasState>) => {
-    _setDrawCanvasState((prevState) => ({
-      ...prevState,
-      ...newState,
-    }));
-  };
-
-  const resetDrawCanvasState = () => {
-    _setDrawCanvasState(INIT_DRAW_CANVAS_STATE);
-  };
 
   useEffect(() => {
-    canvasRef.current = new fabric.Canvas(canvasId, {
-      isDrawingMode: false,
-    });
+    fabricRef.current = new fabric.Canvas(
+      options.canvasId,
+      options.initialSettings
+    );
+    console.log(fabricRef.current)
     setIsReady(true);
-  }, [canvasId]);
+  }, []);
 
-  useEffect(() => {
-    canvasRef.current = drawCanvasState;
-  }, [drawCanvasState]);
+  const updateAndRenderAll = (
+    updateCallback: (canvas: fabric.Canvas) => void
+  ) => {
+    if (fabricCanvas) {
+      updateCallback(fabricCanvas);
+    }
+    fabricCanvas?.renderAll();
+  };
+
+  const reset = () => {
+    fabricCanvas?.clear();
+  };
 
   return {
-    canvasRef,
     isReady,
-    drawCanvasState,
-    resetDrawCanvasState,
-    handlers: {},
+    updateAndRenderAll,
+    reset,
   };
 };
